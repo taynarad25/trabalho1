@@ -3,7 +3,10 @@ function getTipo(){
     axios.get(url)
     .then(response => {
         const data = response.data
-        renderResults.textContent = JSON.stringify(data)
+        results.textContent = JSON.stringify(data)
+        const element = document.createElement("div")
+        element.appendChild(document.createTextNode(results))
+        document.getElementById(list).appendChild(element)
     })
     .catch(error => console.error(error))
 }

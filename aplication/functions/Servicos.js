@@ -1,6 +1,6 @@
-const url = "http://localhost:8080/servicos";
+const urlServicos = "http://localhost:8080/servicos";
 function getServicos(){
-    axios.get(url)
+    axios.get(urlServicos)
     .then(response => {
         const data = response.data
         renderResults.textContent = JSON.stringify(data)
@@ -10,7 +10,7 @@ function getServicos(){
 function addServicos(){
     const idTipo = document.querySelector("#idTipo").value;
     const nome = document.querySelector("#nome").value;
-    axios.post(url, {
+    axios.post(urlServicos, {
         idTipo: idTipo,
         nome: nome
 
@@ -21,7 +21,7 @@ function addServicos(){
     .catch(error => console.log(error))
 }
 function delServicos(){
-    axios.delete(url + "")
+    axios.delete(urlServicos + "")
     .then(response => {
         console.log(JSON.stringify(response.data))
     })

@@ -1,6 +1,6 @@
-const url = "http://localhost:8080/informacoes";
+const urlInformacoes = "http://localhost:8080/informacoes";
 function getInformacoes(){
-    axios.get(url)
+    axios.get(urlInformacoes)
     .then(response => {
         const data = response.data
         renderResults.textContent = JSON.stringify(data)
@@ -16,7 +16,7 @@ function addInformacoes(){
     const telefone = document.querySelector("#telefone").value;
     const instagram = document.querySelector("#instagram").value;
     const whatsapp = document.querySelector("#whatsapp").value;
-    axios.post(url, {
+    axios.post(urlInformacoes, {
         idTipo: idTipo,
         idServico: idServico,
         nome: nome,
@@ -32,7 +32,7 @@ function addInformacoes(){
     .catch(error => console.log(error))
 }
 function delInformacoes(){
-    axios.delete(url + "")
+    axios.delete(urlInformacoes + "")
     .then(response => {
         console.log(JSON.stringify(response.data))
     })
