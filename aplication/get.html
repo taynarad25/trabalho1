@@ -10,10 +10,14 @@
     <script src="functions/Servicos.js"></script>
     <script src="functions/Informacoes.js"></script>
 </head>
-<body>
+<body onload="getTipo(), getServicos(), getInformacoes()">
     <h1>Tipos de Servicos</h1>
-
-    <input type="button" value="ok" onclick="getTipo();">
-    <!--  getServicos(); getInformacoes(); -->
+    <div id="renderResults"></div>
+    <input type="button" id="voltar" value="Voltar" name="voltar" onClick="history.go(-1)">
+    <h1>Apagar</h1>
+    <input type="text" id="id" placeholder="Insira o id que vc deseja apagar" name="id_Tipo">
+    <input type="button" id="apagar" value="Apagar Tipo" name="apagar" onClick="delTipo(); ">
+    <input type="button" id="apagar" value="Apagar Serviço" name="apagar" onClick="delServicos();">
+    <input type="button" id="apagar" value="Apagar Informações" name="apagar" onClick="delInformacoes();">
 </body>
 </html>

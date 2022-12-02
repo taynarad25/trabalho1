@@ -2,8 +2,11 @@ const urlInformacoes = "http://localhost:8080/informacoes";
 function getInformacoes(){
     axios.get(urlInformacoes)
     .then(response => {
-        const data = response.data
-        renderResults.textContent = JSON.stringify(data)
+        const data = JSON.stringify(response.data)
+        const node = document.createElement("p")
+        const text = document.createTextNode(JSON.stringify(JSON.parse(data)))
+        node.appendChild(text)
+        document.getElementById("renderResults").appendChild(node)
     })
     .catch(error => console.error(error))
 }
@@ -28,13 +31,17 @@ function addInformacoes(){
     })
     .then(response => {
         console.log(response.data)
+        alert("Informações do serviço cadastradas com sucesso!")
     })
     .catch(error => console.log(error))
 }
 function delInformacoes(){
-    axios.delete(urlInformacoes + "")
+    id = document.querySelector("#id").value
+    axios.delete(urlInformacoes + "/" + id)
     .then(response => {
-        console.log(JSON.stringify(response.data))
+        console.log(response.data)
+        alert("Informações excluída com sucesso!")
+        document.location.reload(true)
     })
     .catch(error => console.alert(error))
 }
