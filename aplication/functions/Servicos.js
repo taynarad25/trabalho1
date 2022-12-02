@@ -2,11 +2,16 @@ const urlServicos = "http://localhost:8080/servicos";
 function getServicos(){
     axios.get(urlServicos)
     .then(response => {
-        const data = JSON.stringify(response.data)
-        const node = document.createElement("p")
-        const text = document.createTextNode(JSON.stringify(JSON.parse(data)))
-        node.appendChild(text)
-        document.getElementById("renderResults").appendChild(node)
+        response.data.forEach((item) => {
+            const {Id_Servicos, Id_Tipo, Nome } = item;
+            const elementoHTML = `
+                <div class="item">
+                    <a href="../get/Informacoes.html">${Nome}</a>
+                    <button type="button" onclick="delServicos(${Id_Servicos})">Excluir</button>
+                </div>
+            `;
+            document.getElementById("renderResults").innerHTML += elementoHTML;
+        });
     })
     .catch(error => console.error(error))
 }
@@ -24,8 +29,7 @@ function addServicos(){
     })
     .catch(error => console.log(error))
 }
-function delServicos(){
-    id = document.querySelector("#id").value
+function delServicos(id){
     axios.delete(urlServicos + "/" + id)
     .then(response => {
         console.log(response.data)

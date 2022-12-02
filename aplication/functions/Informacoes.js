@@ -2,11 +2,17 @@ const urlInformacoes = "http://localhost:8080/informacoes";
 function getInformacoes(){
     axios.get(urlInformacoes)
     .then(response => {
-        const data = JSON.stringify(response.data)
-        const node = document.createElement("p")
-        const text = document.createTextNode(JSON.stringify(JSON.parse(data)))
-        node.appendChild(text)
-        document.getElementById("renderResults").appendChild(node)
+        response.data.forEach((item) => {
+            const {Id_Informacoes, Nome } = item;
+
+            const elementoHTML = `
+                <div class="item">
+                    <a href="#/${Id_Informacoes}">${Nome}</a>
+                    <button type="button" onclick="delInformacoes(${Id_Informacoes})">Excluir</button>
+                </div>
+            `;
+            document.getElementById("renderResults").innerHTML += elementoHTML;
+        });
     })
     .catch(error => console.error(error))
 }
@@ -35,8 +41,7 @@ function addInformacoes(){
     })
     .catch(error => console.log(error))
 }
-function delInformacoes(){
-    id = document.querySelector("#id").value
+function delInformacoes(id){
     axios.delete(urlInformacoes + "/" + id)
     .then(response => {
         console.log(response.data)

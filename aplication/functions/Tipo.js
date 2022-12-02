@@ -1,31 +1,22 @@
 const urlTipo = "http://localhost:8080/tipo";
+function deletar(id) {
+    alert(id)
+}
+
 function getTipo(){
     axios.get(urlTipo)
     .then(response => {
-        const data = JSON.stringify(response.data)
-        const node = document.createElement("p")
-        const text = document.createTextNode(JSON.stringify(JSON.parse(data)))
-        node.appendChild(text)
-        document.getElementById("renderResults").appendChild(node)
-        // const data = JSON.stringify(response.data)
-        // tipo = JSON.stringify(
-        //     JSON.parse(data, (key, value, teste) => {
-        //         // console.log(key); // mostra o nome da propriedade atual, o último é "".
-        //         var resp = []
-        //         var i = 0
-        //         while(value[i] != null)
-        //         {
-        //             if(value[i] != "," && value[i] != null)
-        //             {
-        //                 resp = value
-        //                 console.log(resp);
-        //             }
-        //             i++
-        //         }
-        //         // console.log(resp)
-        //         renderResults.textContent =  JSON.stringify(resp);
-        //     })
-        // )
+        response.data.forEach((item) => {
+            const { Id_Tipo, Nome } = item;
+
+            const elementoHTML = `
+                <div class="item">
+                    <a href="../get/Servicos.html">${Nome}</a>
+                    <button type="button" onclick="delTipo(${Id_Tipo})">Excluir</button>
+                </div>
+            `;
+            document.getElementById("renderResults").innerHTML += elementoHTML;
+        });
     })
     .catch(error => console.error(error))
 }
@@ -40,8 +31,7 @@ function addTipo(){
     })
     .catch(error => console.log(error))
 }
-function delTipo(){
-    id = document.querySelector("#id").value
+function delTipo(id){
     axios.delete(urlTipo + "/" + id)
     .then(response => {
         console.log(response.data)
