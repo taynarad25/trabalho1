@@ -1,20 +1,35 @@
 const urlServicos = "http://localhost:8080/servicos";
-function getServicos(){
-    axios.get(urlServicos)
+function validarServicos(){
+    const form = document.forms[0];
+    const idTipo = form.querySelector('input[name="idTipo"]')
+    const nome = form.querySelector('input[name="nome"]');
+    if(nome.value != "" && idTipo.value != ""){
+        addServicos();
+    }
+    else{
+        alert("Preencha os campos obrigatórios")
+    }
+}
+
+function getServicos(id){
+    axios.get(urlServicos + "/" + id)
     .then(response => {
         response.data.forEach((item) => {
-            const {Id_Servicos, Id_Tipo, Nome } = item;
-            const elementoHTML = `
-                <div class="item">
-                    <a href="../get/Informacoes.html">${Nome}</a>
-                    <button type="button" onclick="delServicos(${Id_Servicos})">Excluir</button>
-                </div>
-            `;
-            document.getElementById("renderResults").innerHTML += elementoHTML;
+            const {Id_Tipo, Id_Servicos, Nome } = item;
+            if(id == Id_Tipo){
+                const elementoHTML = `
+                    <div class="item">
+                        <input type="button" id="${Id_Servicos}" value="${Nome}" name ="getInformacoes" onClick="click(this.id); window.location.href ='http://localhost:3000/get/Informacoes.html'">
+                        <button type="button" onclick="delServicos(${Id_Servicos})">Excluir</button>
+                    </div>
+                `;
+                document.getElementById("renderResults").innerHTML += elementoHTML;
+            }
         });
     })
     .catch(error => console.error(error))
 }
+
 function addServicos(){
     const idTipo = document.querySelector("#idTipo").value;
     const nome = document.querySelector("#nome").value;
@@ -29,6 +44,7 @@ function addServicos(){
     })
     .catch(error => console.log(error))
 }
+
 function delServicos(id){
     axios.delete(urlServicos + "/" + id)
     .then(response => {

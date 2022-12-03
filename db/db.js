@@ -14,16 +14,17 @@ async function selectTipo(){
     const [rows] = await conn.query('select * from  Tipo;');
     return rows;
 }
-async function selectServicos(){
+
+async function selectServicos(idServicos){
     const conn = await connect();
-    const [rows] = await conn.query('select * from  Servicos;');
-    return rows;
+    const sql = 'select * from  Servicos where Id_Tipo = (?);';
+    return await conn.query(sql, [idServicos]);
 }
 
-async function selectInformacoes(){
+async function selectInformacoes(idInformacoes){
     const conn = await connect();
-    const [rows] = await conn.query('select * from  Informacoes;');
-    return rows;
+    const sql = 'select * from  Informacoes where Id_Servicos = (?);';
+    return await conn.query(sql, [idInformacoes]);
 }
 
 async function insertTipo(tipo){

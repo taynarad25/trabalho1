@@ -6,25 +6,21 @@ app.use(cors());
 
 const db = require('../db/db.js');
 
-
-
 app.get('/tipo', async (request, response) => {
   const {} = request.query;
   const result = await db.selectTipo();
   return response.json(result);
 })
 
-app.get('/servicos', async (request, response) => {
-  const {} = request.query;
-  const result = await db.selectServicos();
-  console.log(result)
+app.get('/servicos/:id', async (request, response) => {
+  const {id} = request.params;
+  const result = await db.selectServicos(id);
   return response.json(result);
 })
 
-app.get('/informacoes', async (request, response) => {
-  const {} = request.query;
-  const result = await db.selectInformacoes();
-  console.log(result)
+app.get('/informacoes/:id', async (request, response) => {
+  const {id} = request.params;
+  const result = await db.selectInformacoes(id);
   return response.json(result);
 })
 
@@ -37,6 +33,7 @@ app.post('/tipo', async (request, response) => {
 
   return response.status(201).json(novoTipo);
 })
+
 app.post('/servicos', async (request, response) => {
   const {idTipo, nome} = request.body
   const novoServico = {
@@ -47,6 +44,7 @@ app.post('/servicos', async (request, response) => {
 
   return response.status(201).json(novoServico);
 })
+
 app.post('/informacoes', async (request, response) => {
   const {idTipo, idServico, nome, horario, endereco, telefone, instagram, whatsapp} = request.body
   const novoInformacoes = {
@@ -69,11 +67,13 @@ app.delete('/tipo/:id', async (request, response) => {
   const result = await db.deleteTipo(id)
   return response.json(result)
 })
+
 app.delete('/servicos/:id', async (request, response) => {
   const {id} = request.params;
   const result = await db.deleteServicos(id)
   return response.json(result)
 })
+
 app.delete('/informacoes/:id', async (request, response) => {
   const {id} = request.params;
   const result = await db.deleteInformacoes(id)

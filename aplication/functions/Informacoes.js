@@ -1,13 +1,26 @@
 const urlInformacoes = "http://localhost:8080/informacoes";
-function getInformacoes(){
-    axios.get(urlInformacoes)
+function validarInformacoes(){
+    const form = document.forms[0];
+    const idTipo = form.querySelector('input[name="idTipo"]')
+    const idServico = form.querySelector('input[name="idServico"]')
+    const nome = form.querySelector('input[name="nome"]');
+    if(nome.value != "" && idTipo.value != "" && idServico.value != ""){
+        addInformacoes();
+    }
+    else{
+        alert("Preencha os campos obrigatórios")
+    }
+}
+
+function getInformacoes(id){
+    axios.get(urlInformacoes + "/" + id)
     .then(response => {
         response.data.forEach((item) => {
-            const {Id_Informacoes, Nome } = item;
-
+            const {Id_Servicos, Id_Informacoes, Nome } = item;
             const elementoHTML = `
                 <div class="item">
-                    <a href="#/${Id_Informacoes}">${Nome}</a>
+                    <input type="button" id="${Id_Informacoes}" value="${Nome}">
+
                     <button type="button" onclick="delInformacoes(${Id_Informacoes})">Excluir</button>
                 </div>
             `;
@@ -16,6 +29,7 @@ function getInformacoes(){
     })
     .catch(error => console.error(error))
 }
+
 function addInformacoes(){
     const idTipo = document.querySelector("#idTipo").value;
     const idServico = document.querySelector("#idServico").value;
@@ -41,6 +55,7 @@ function addInformacoes(){
     })
     .catch(error => console.log(error))
 }
+
 function delInformacoes(id){
     axios.delete(urlInformacoes + "/" + id)
     .then(response => {

@@ -10,40 +10,50 @@
 </head>
 <body>
     <h1>Adicionar uma nova informação do serviço</h1>
-    <form action="/adicionar" method="post">
+    <form method="post">
+
         <div class="add">
-            <label for="idTipo">Id do Tipo:</label>
+            <label for="idTipo">Id do Tipo*:</label>
             <input type="number" id="idTipo" name="idTipo" placeholder="Insira o identificador do tipo de serviço" required=""/>
         </div>
+
         <div class="add">
-            <label for="idServico">Id do Serviço:</label>
+            <label for="idServico">Id do Serviço*:</label>
             <input type="number" id="idServico" name="idServico" placeholder="Insira o identificador do serviço" required=""/>
         </div>
+
         <div class="add">
-            <label for="nome">Nome:</label>
+            <label for="nome">Nome*:</label>
             <input type="text" id="nome" name="nome" placeholder="Insira o Serviço" required=""/>
         </div>
+
         <div class="add">
             <label for="horario">Horário:</label>
             <input type="text" id="horario" name="horario" placeholder="Insira o horário de atendimento">
         </div>
+
         <div class="add">
             <label for="endereco">Endereço:</label>
             <input type="text" id="endereco" name="endereco" placeholder="Insira o endereço">
         </div>
+
         <div class="add">
             <label for="telefone">Telefone:</label>
             <input type="tel" id="telefone" name="telefone" placeholder="Insira o telefone para contato">
         </div>
+
         <div class="add">
             <label for="instagram">Instagram:</label>
             <input type="text" id="instagram" name="instagram" placeholder="Insira o instagram">
         </div>
+
         <div class="add">
             <label for="whatsapp">Telefone:</label>
             <input type="tel" id="whatsapp" name="whatsapp" placeholder="Insira o whatsapp">
         </div>
-        <input type="button" id="enviar "value="Enviar" name="enviar" onclick="addInformacoes();">
+
+        <input type="button" id="enviar" value="Enviar" name="enviar" onclick="validarInformacoes();">
+
         <input type="button" id="voltar" value="Voltar" name="voltar" onClick="history.go(-1)">
     </form>
 </body>
