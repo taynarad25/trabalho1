@@ -12,15 +12,15 @@ app.get('/tipo', async (request, response) => {
   return response.json(result);
 })
 
-app.get('/servicos/:id', async (request, response) => {
-  const {id} = request.params;
-  const result = await db.selectServicos(id);
+app.get('/servicos', async (request, response) => {
+  const {} = request.query;
+  const result = await db.selectServicos();
   return response.json(result);
 })
 
-app.get('/informacoes/:id', async (request, response) => {
-  const {id} = request.params;
-  const result = await db.selectInformacoes(id);
+app.get('/informacoes', async (request, response) => {
+  const {} = request.query;
+  const result = await db.selectInformacoes();
   return response.json(result);
 })
 
@@ -46,9 +46,8 @@ app.post('/servicos', async (request, response) => {
 })
 
 app.post('/informacoes', async (request, response) => {
-  const {idTipo, idServico, nome, horario, endereco, telefone, instagram, whatsapp} = request.body
+  const { idServico, nome, horario, endereco, telefone, instagram, whatsapp} = request.body
   const novoInformacoes = {
-    idTipo,
     idServico,
     nome,
     horario,

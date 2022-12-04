@@ -1,9 +1,8 @@
 const urlServicos = "http://localhost:8080/servicos";
 function validarServicos(){
     const form = document.forms[0];
-    const idTipo = form.querySelector('input[name="idTipo"]')
     const nome = form.querySelector('input[name="nome"]');
-    if(nome.value != "" && idTipo.value != ""){
+    if(nome.value != ""){
         addServicos();
     }
     else{
@@ -11,36 +10,44 @@ function validarServicos(){
     }
 }
 
+function getId(){
+    const url = new URL(location.href);
+    return url.searchParams.get("id")
+}
+
 function getServicos(id){
-    axios.get(urlServicos + "/" + id)
+    axios.get(urlServicos)
     .then(response => {
         response.data.forEach((item) => {
-            const {Id_Tipo, Id_Servicos, Nome } = item;
+            const { Id_Tipo, Id_Servicos, Nome } = item;
             if(id == Id_Tipo){
                 const elementoHTML = `
                     <div class="item">
-                        <input type="button" id="${Id_Servicos}" value="${Nome}" name ="getInformacoes" onClick="click(this.id); window.location.href ='http://localhost:3000/get/Informacoes.html'">
-                        <button type="button" onclick="delServicos(${Id_Servicos})">Excluir</button>
+                        <button class="delete" name="delete" onClick="delServicos(${Id_Servicos})" ><img class="delete" src="../image/excluir.png"></button>
+                        <button class="servicos" name ="getInformacoes" onClick="window.location.href = '../get/Informacoes.html?id=${Id_Servicos}'">${Nome}</button>
                     </div>
                 `;
                 document.getElementById("renderResults").innerHTML += elementoHTML;
             }
         });
+        const elementoHTML = `
+        <button id="adicionar" name ="addServico" onClick="window.location.href ='../add/Servicos.html?id=${getId()}'"><img src="../image/adicionar.png">Adiconar Novo</button>
+        `
+        document.getElementById("botao").innerHTML += elementoHTML;
     })
     .catch(error => console.error(error))
 }
 
 function addServicos(){
-    const idTipo = document.querySelector("#idTipo").value;
     const nome = document.querySelector("#nome").value;
     axios.post(urlServicos, {
-        idTipo: idTipo,
+        idTipo: getId(),
         nome: nome
-
     })
     .then(response => {
         console.log(response.data)
         alert("Serviço cadastrado com sucesso!")
+        document.location.reload(true)
     })
     .catch(error => console.log(error))
 }

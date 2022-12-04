@@ -15,16 +15,16 @@ async function selectTipo(){
     return rows;
 }
 
-async function selectServicos(idServicos){
+async function selectServicos(){
     const conn = await connect();
-    const sql = 'select * from  Servicos where Id_Tipo = (?);';
-    return await conn.query(sql, [idServicos]);
+    const [rows] = await conn.query('select * from  Servicos;');
+    return rows;
 }
 
-async function selectInformacoes(idInformacoes){
+async function selectInformacoes(){
     const conn = await connect();
-    const sql = 'select * from  Informacoes where Id_Servicos = (?);';
-    return await conn.query(sql, [idInformacoes]);
+    const [rows] = await conn.query('select * from  Informacoes;');
+    return rows;
 }
 
 async function insertTipo(tipo){
@@ -43,8 +43,8 @@ async function insertServicos(servico){
 
 async function insertInformacoes(informacoes){
     const conn = await connect();
-    const sql = 'INSERT INTO Informacoes(Id_Servicos, Id_Tipo, Nome, Horario, Endereco, Telefone, Instagram, Whatsapp) VALUE (?, ?, ?, ?, ?, ?, ?, ?);';
-    const values = [informacoes.idTipo, informacoes.idServico, informacoes.nome, informacoes.horario, informacoes.endereco, informacoes.telefone, informacoes.instagram, informacoes.whatsapp]
+    const sql = 'INSERT INTO Informacoes(Id_Servicos, Nome, Horario, Endereco, Telefone, Instagram, Whatsapp) VALUE (?, ?, ?, ?, ?, ?, ?);';
+    const values = [informacoes.idServico, informacoes.nome, informacoes.horario, informacoes.endereco, informacoes.telefone, informacoes.instagram, informacoes.whatsapp]
     return await conn.query(sql, values);
 }
 

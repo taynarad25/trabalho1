@@ -1,10 +1,8 @@
 const urlInformacoes = "http://localhost:8080/informacoes";
 function validarInformacoes(){
     const form = document.forms[0];
-    const idTipo = form.querySelector('input[name="idTipo"]')
-    const idServico = form.querySelector('input[name="idServico"]')
     const nome = form.querySelector('input[name="nome"]');
-    if(nome.value != "" && idTipo.value != "" && idServico.value != ""){
+    if(nome.value != ""){
         addInformacoes();
     }
     else{
@@ -12,27 +10,80 @@ function validarInformacoes(){
     }
 }
 
-function getInformacoes(id){
-    axios.get(urlInformacoes + "/" + id)
+function getId(){
+    const url = new URL(location.href);
+    return url.searchParams.get("id")
+}
+function getclick(id){
+    axios.get(urlInformacoes)
     .then(response => {
         response.data.forEach((item) => {
-            const {Id_Servicos, Id_Informacoes, Nome } = item;
-            const elementoHTML = `
-                <div class="item">
-                    <input type="button" id="${Id_Informacoes}" value="${Nome}">
-
-                    <button type="button" onclick="delInformacoes(${Id_Informacoes})">Excluir</button>
-                </div>
-            `;
-            document.getElementById("renderResults").innerHTML += elementoHTML;
+            const { Id_Informacoes, Nome, Horario, Endereco, Telefone, Instagram, Whatsapp } = item;
+            if(id == Id_Informacoes){
+                const elementoHTML = `
+                    <div id="separar"></div>
+                        <p class="inf">${Nome}</p>
+                    `
+                    document.getElementById("renderResults").innerHTML += elementoHTML;
+                if(Horario != null){
+                    const elementoHTML = `
+                        <p class="inf">${Horario}</p>
+                    `
+                    document.getElementById("renderResults").innerHTML += elementoHTML;
+                }
+                if(Endereco != null){
+                    const elementoHTML = `
+                        <p class="inf">${Endereco}</p>
+                    `
+                    document.getElementById("renderResults").innerHTML += elementoHTML;
+                }
+                if(Telefone != null){
+                    const elementoHTML = `
+                        <p class="inf">${Telefone}</p>
+                    `
+                    document.getElementById("renderResults").innerHTML += elementoHTML;
+                }
+                if(Instagram != null){
+                    const elementoHTML = `
+                        <p class="inf">${Instagram}</p>
+                    `
+                    document.getElementById("renderResults").innerHTML += elementoHTML;
+                }
+                if(Whatsapp != null){
+                    const elementoHTML = `
+                        <p class="inf">${Whatsapp}</p>
+                    `
+                    document.getElementById("renderResults").innerHTML += elementoHTML;
+                }
+            }
         });
+    })
+}
+
+function getInformacoes(id){
+    axios.get(urlInformacoes)
+    .then(response => {
+        response.data.forEach((item) => {
+            const { Id_Servicos, Id_Informacoes, Nome } = item;
+            if(id == Id_Servicos){
+                const elementoHTML = `
+                    <div class="item">
+                        <button class="delete" name="delete" onClick="delInformacoes(${Id_Informacoes})"><img class="delete" src="../image/excluir.png"></button>
+                        <button class="informacoes" name="informacoes" onClick="getclick(${Id_Informacoes})">${Nome}</button>
+                    </div>
+                `;
+                document.getElementById("renderResults").innerHTML += elementoHTML;
+            }
+        });
+        const elementoHTML = `
+            <button id="adicionar" name ="addInformacoes" onClick="window.location.href ='../add/Informacoes.html?id=${getId()}'"><img src="../image/adicionar.png">Adiconar Novo</button>
+        `
+        document.getElementById("botao").innerHTML += elementoHTML;
     })
     .catch(error => console.error(error))
 }
 
 function addInformacoes(){
-    const idTipo = document.querySelector("#idTipo").value;
-    const idServico = document.querySelector("#idServico").value;
     const nome = document.querySelector("#nome").value;
     const horario = document.querySelector("#horario").value;
     const endereco = document.querySelector("#endereco").value;
@@ -40,8 +91,7 @@ function addInformacoes(){
     const instagram = document.querySelector("#instagram").value;
     const whatsapp = document.querySelector("#whatsapp").value;
     axios.post(urlInformacoes, {
-        idTipo: idTipo,
-        idServico: idServico,
+        idServico: getId(),
         nome: nome,
         horario: horario,
         endereco: endereco,
@@ -52,6 +102,7 @@ function addInformacoes(){
     .then(response => {
         console.log(response.data)
         alert("Informações do serviço cadastradas com sucesso!")
+        document.location.reload(true)
     })
     .catch(error => console.log(error))
 }

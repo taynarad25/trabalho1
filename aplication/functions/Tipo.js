@@ -17,12 +17,11 @@ function getTipo(){
             const { Id_Tipo, Nome } = item;
             const elementoHTML = `
                 <div class="item">
-                    <input type="button" id="${Id_Tipo}" value="${Nome}" name ="getServicos" onClick="window.location.href ='http://localhost:3000/get/Servicos.html;">
-                    <button type="button" onclick="delTipo(${Id_Tipo})">Excluir</button>
+                    <button class="delete" name="delete" onClick="delTipo(${Id_Tipo})" ><img class="delete" src="../image/excluir.png"></button>
+                    <button class="tipo" name ="getServicos" onClick="window.location.href = '../get/Servicos.html?id=${Id_Tipo}'">${Nome}</button>
                 </div>
             `;
             document.getElementById("renderResults").innerHTML += elementoHTML;
-            return Id_Tipo;
         });
     })
     .catch(error => console.error(error))
@@ -36,6 +35,7 @@ function addTipo(){
     .then(response => {
         console.log(response.data)
         alert("Tipo cadastrado com sucesso!")
+        document.location.reload(true)
     })
     .catch(error => console.log(error))
 }

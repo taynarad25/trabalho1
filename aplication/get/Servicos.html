@@ -7,10 +7,13 @@
     <title>Serviços</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="../functions/Servicos.js"></script>
+    <link rel="stylesheet" href="../style/style.css">
 </head>
-<body onload="getServicos();">
+<body onload="getServicos(getId());">
     <h1>Serviços</h1>
     <div id="renderResults"></div>
-    <input type="button" id="voltar" value="Voltar" name="voltar" onClick="history.go(-1)">
+    <div id="botao">
+        <button id="voltar" name="voltar" onclick="history.go(-1);"><img src="../image/voltar.png">Voltar</button>
+    </div>
 </body>
 </html>

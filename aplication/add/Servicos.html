@@ -7,24 +7,21 @@
     <title>Adicionar</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="../functions/Servicos.js"></script>
+    <link rel="stylesheet" href="../style/style.css">
 </head>
 <body>
     <h1>Adicionar novo serviço</h1>
     <form method="post">
 
-        <div class="add">
-            <label for="idTipo">Id do Tipo*:</label>
-            <input type="number" id="idTipo" name="idTipo" placeholder="Insira o identificador do tipo de serviço" required=""/>
-        </div>
-
-        <div class="add">
+        <div class="adicionar">
             <label for="nome">Nome*:</label>
             <input type="text" id="nome" name="nome" placeholder="Insira o Serviço" required=""/>
         </div>
-
-        <input type="button" id="enviar" value="Enviar" name="enviar" onclick="validarServicos();">
-
-        <input type="button" id="voltar" value="Voltar" name="voltar" onClick="history.go(-1)">
     </form>
+    <div id="botao">
+        <button id="enviar" name="enviar" onclick="validarServicos();"><img src="../image/enviar.png">Enviar</button>
+
+        <button id="voltar" name="voltar" onClick="history.go(-1);"><img src="../image/voltar.png">Voltar</button>
+    </div>
 </body>
 </html>
